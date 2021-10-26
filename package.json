@@ -1,0 +1,40 @@
+{
+  "name": "knowledge-network-map-koa",
+  "version": "0.0.1",
+  "description": "A Knowledge Network Map's Server developed by Node.js & Koa2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env NODE_ENV=production node app",
+    "dev": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Franz-Zhao/knowledge-network-map-koa.git"
+  },
+  "keywords": [
+    "Knowledge Network Map",
+    "Node.js",
+    "Koa2"
+  ],
+  "author": "Franz Zhao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Franz-Zhao/knowledge-network-map-koa/issues"
+  },
+  "homepage": "https://github.com/Franz-Zhao/knowledge-network-map-koa#readme",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.4",
+    "koa-body": "^4.2.0",
+    "koa-json-error": "^3.1.2",
+    "koa-jwt": "^4.0.3",
+    "koa-router": "^10.1.1",
+    "koa-static": "^5.0.0",
+    "mongoose": "^6.0.12"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.14"
+  }
+}
