@@ -1,6 +1,12 @@
 const Router = require('koa-router');
 const jwt = require('koa-jwt');
-const { secret } = require('../config');
+// UserCtl
+const {
+    login, register, jwtVerify
+} = require('../controllers/userCtl');
+
+// env
+const secret = process.env.TOKEN_SECRET;
 
 // 实例化路由+路由统一前缀
 const router = new Router({
@@ -14,8 +20,12 @@ const auth = jwt({ secret });
  * User Router
  */
 // 用户登录
-router.post('/login', );
+router.post('/login', login);
+
 // 用户注册
-router.post('/register', );
+router.post('/register', register);
+
+// 用户jwt有效性验证
+router.get('/jwt', auth, jwtVerify);
 
 module.exports = router;

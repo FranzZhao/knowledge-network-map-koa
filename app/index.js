@@ -3,8 +3,6 @@ const Koa = require('koa');
 // 请求体解析中间件
 const koaBody = require('koa-body');
 const path = require('path');
-// 将Koa实例化为app
-const app = new Koa();
 // 将所有的路由注册到app中的脚本文件
 const routing = require('./routers');
 // 注册错误信息
@@ -15,14 +13,33 @@ const parameter = require('koa-parameter');
 const mongoose = require('mongoose');
 // 引入koa-static
 const koaStatic = require('koa-static');
-// 导入配置
-const {
-    connectionStr
-} = require('./config');
+// import koa2-cors 跨域
+const cors = require('koa2-cors');
+
+// import dotenv
+const dotenv = require('dotenv');
+dotenv.config();
+
+// 将Koa实例化为app
+const app = new Koa();
+// Koa跨域实现
+app.use(
+    cors({
+        origin: function (ctx) {
+            return ctx.header.origin; //只允许http://localhost:8080这个域名的请求
+        },
+        maxAge: 5, //指定本次预检请求的有效期，单位为秒。
+        credentials: true, //是否允许发送Cookie
+        allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], //设置所允许的HTTP请求方法
+        allowHeaders: ['Content-Type', 'Authorization', 'Accept'], //设置服务器支持的所有头信息字段
+        exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'] //设置获取其他自定义字段
+    })
+);
 
 // 链接MongoDB
 mongoose.connect(
-    connectionStr,
+    // connectionStr
+    process.env.MONGODB_CONNECTION,
     {
         useNewUrlParser: true,
     },
@@ -54,6 +71,6 @@ app.use(parameter(app));
 routing(app);
 
 // 监听的端口
-app.listen(3000, () => {
-    console.log('Program running in prot 3000');
+app.listen(3001, () => {
+    console.log('Program running in prot 3001');
 });
