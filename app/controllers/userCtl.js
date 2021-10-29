@@ -10,8 +10,10 @@ class UserCtl {
         ctx.verifyParams({
             e_mail: { type: 'string', require: true },
             password: { type: 'string', require: true },
+            remember_me: { type: 'boolean', require: true },
         });
-        const { e_mail, password } = ctx.request.body;
+        const { e_mail, password, remember_me } = ctx.request.body;
+        const expiresIn = remember_me ? '7d' : '1d';    //过期时间设定: 配合前端的"记住我"
         // find user in MongoDB
         const user = await Users.findOne({
             e_mail: e_mail,
@@ -30,7 +32,7 @@ class UserCtl {
             process.env.TOKEN_SECRET,
             // expiration: 1 day
             // 2d, 10h, 120=120ms
-            { expiresIn: '10000' }
+            { expiresIn: expiresIn }
         );
         ctx.body = { user, token };
     }
