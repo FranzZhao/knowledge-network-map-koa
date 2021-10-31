@@ -4,7 +4,10 @@ const Graphs = require('../models/graphsSchema');
 class GraphCtl {
     // get specific graph info
     async findById(ctx) {
-        const graph = await Graphs.findById(ctx.params.id);
+        const graph = await Graphs.find({
+            // _id: ctx.params.id,
+            knmId: ctx.params.mapId,
+        }).populate('knm');
         ctx.body = graph;
     }
 
@@ -27,7 +30,7 @@ class GraphCtl {
         const graph = await Graphs.findByIdAndUpdate(
             ctx.params.id,
             ctx.request.body
-        );
+        ).populate('knm');
         ctx.body = graph;
     }
 }

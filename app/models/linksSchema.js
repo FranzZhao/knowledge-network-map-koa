@@ -6,6 +6,16 @@ const linksSchema = new Schema({
         type: Number,
         select: false,
     },
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'Users',
+        select: true,
+    },
+    graph: {
+        type: Schema.Types.ObjectId,
+        ref: 'Graphs',
+        select: true,
+    },
     name: {
         type: String,
         required: true,
@@ -22,12 +32,14 @@ const linksSchema = new Schema({
         select: true,
     },
     source: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'Nodes',
         required: true,
         select: true,
     },
     target: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'Nodes',
         required: true,
         select: true,
     },
@@ -38,16 +50,12 @@ const linksSchema = new Schema({
         }],
         select: true
     },
-    graph: {
-        type: Schema.Types.ObjectId,
-        ref: 'Graphs',
+    state: {
+        type: Number,
+        default: 1,
+        required: false,
         select: true,
-    },
-    author: {
-        type: Schema.Types.ObjectId,
-        ref: 'Users',
-        select: true,
-    },
+    }
 }, {
     timestamps: true
 });

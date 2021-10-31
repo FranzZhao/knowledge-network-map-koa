@@ -6,6 +6,25 @@ const nodesSchema = new Schema({
         type: Number,
         select: false,
     },
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'Users',
+        select: true,
+    },
+    graph: {
+        type: Schema.Types.ObjectId,
+        ref: 'Graphs',
+        select: true,
+    },
+    Notebooks: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Notebooks',
+        }],
+        default: [],
+        required: false,
+        select: true,
+    },
     name: {
         type: String,
         required: true,
@@ -24,33 +43,21 @@ const nodesSchema = new Schema({
         select: true,
     },
     size: {
-        type: String,
-        required: true,
+        type: Number,
+        required: false,
         select: true,
     },
     color: {
         type: String,
-        required: true,
-        select: true,
-    },
-    Notebooks: {
-        type: [{
-            type: Schema.Types.ObjectId,
-            ref: 'Notebooks',
-        }],
         required: false,
-        select: true
-    },
-    graph: {
-        type: Schema.Types.ObjectId,
-        ref: 'Graphs',
         select: true,
     },
-    author: {
-        type: Schema.Types.ObjectId,
-        ref: 'Users',
+    state: {
+        type: Number,
+        required: false,
+        default: 1,
         select: true,
-    },
+    }
 }, {
     timestamps: true
 });

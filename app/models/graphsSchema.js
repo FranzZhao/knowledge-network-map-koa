@@ -17,24 +17,29 @@ const graphsSchema = new Schema({
         ref: 'Maps',
         select: true,
     },
-    // nodes: {
-    //     type: [{
-    //         type: Schema.Types.ObjectId,
-    //         ref: 'Nodes',
-    //     }],
-    //     select: true,
-    // },
-    // links: {
-    //     type: [{
-    //         type: Schema.Types.ObjectId,
-    //         ref: 'Links',
-    //     }],
-    //     select: true,
-    // },
+    knmId: {
+        type: String,
+        select: true,
+    },
+    nodes: {
+        type: [{
+            type: String,
+        }],
+        default: [],
+        select: true,
+    },
+    links: {
+        type: [{
+            type: String,
+        }],
+        default: [],
+        select: true,
+    },
     relations: {
         type: [{
             type: String,
         }],
+        default: [],
         select: true
     },
     themeColor: {

@@ -28,6 +28,7 @@ class MapCtl {
         const newGraph = await new Graphs({
             author: ctx.state.user._id,
             knm: newMap._id,
+            knmId: newMap._id,
             nodes: [],
             links: [],
             relations: [],
