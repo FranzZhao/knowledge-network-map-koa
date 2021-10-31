@@ -23,14 +23,16 @@ const graphsSchema = new Schema({
     },
     nodes: {
         type: [{
-            type: String,
+            type: Schema.Types.ObjectId,
+            ref: 'Nodes',
         }],
         default: [],
         select: true,
     },
     links: {
         type: [{
-            type: String,
+            type: Schema.Types.ObjectId,
+            ref: 'Links',
         }],
         default: [],
         select: true,

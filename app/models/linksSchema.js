@@ -48,6 +48,7 @@ const linksSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Notebooks',
         }],
+        default: [],
         select: true
     },
     state: {

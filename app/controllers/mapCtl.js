@@ -13,7 +13,7 @@ class MapCtl {
 
     // create a new knm
     async create(ctx) {
-        // 先创建一个knm
+        // 1. 先创建一个knm
         ctx.verifyParams({
             title: { type: 'string', required: true },
             tags: { type: 'array', itemType: 'string', required: true },
@@ -24,7 +24,7 @@ class MapCtl {
             ...ctx.request.body,
             author: ctx.state.user._id
         }).save();
-        // 再创建一个graph, graph属于一个knm, 一对一的关系
+        // 2. 再创建一个graph, graph属于一个knm, 一对一的关系
         const newGraph = await new Graphs({
             author: ctx.state.user._id,
             knm: newMap._id,

@@ -7,7 +7,7 @@ const secret = process.env.TOKEN_SECRET;
 
 // 实例化路由+路由统一前缀
 const router = new Router({
-    prefix: '/map/:mapId/graph/:graphId/node'
+    prefix: '/graph/:graphId/node'
 });
 
 // 用户认证与授权中间件

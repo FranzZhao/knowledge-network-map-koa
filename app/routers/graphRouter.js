@@ -17,9 +17,6 @@ const auth = jwt({ secret });
 /**
  * Map Router
  */
-// 新建knm知识地图
-// router.post('/', auth, create);
-
 // 获取指定的knm知识地图
 router.get('/', auth, findById);
 
