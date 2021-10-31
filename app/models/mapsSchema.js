@@ -29,11 +29,6 @@ const mapsSchema = new Schema({
         required: true, 
         select: true,
     },
-    graph: {
-        type: Schema.Types.ObjectId,
-        ref: 'Graphs',
-        select: true,
-    },
     author: {
         type: Schema.Types.ObjectId,
         ref: 'Users',

@@ -11,16 +11,26 @@ const graphsSchema = new Schema({
         ref: 'Users',
         select: true,
     },
-    nodes: {
+    // 一对一: graph所属的knm
+    knm: {
         type: Schema.Types.ObjectId,
-        ref: 'Nodes',
+        ref: 'Maps',
         select: true,
     },
-    links: {
-        type: Schema.Types.ObjectId,
-        ref: 'Links',
-        select: true,
-    },
+    // nodes: {
+    //     type: [{
+    //         type: Schema.Types.ObjectId,
+    //         ref: 'Nodes',
+    //     }],
+    //     select: true,
+    // },
+    // links: {
+    //     type: [{
+    //         type: Schema.Types.ObjectId,
+    //         ref: 'Links',
+    //     }],
+    //     select: true,
+    // },
     relations: {
         type: [{
             type: String,
@@ -29,46 +39,57 @@ const graphsSchema = new Schema({
     },
     themeColor: {
         type: String,
+        default: '#1b3436',
         select: true,
     },
     lineStyleType: {
         type: String,
+        default: 'dashed',
         select: true,
     },
     lineStyleColor: {
         type: String,
+        default: '#ffffff',
         select: true,
     },
     lineStyleWidth: {
         type: Number,
+        default: 1.6,
         select: true,
     },
     lineStyleOpacity: {
         type: Number,
+        default: 1,
         select: true,
     },
     lineStyleCurveness: {
         type: Number,
+        default: 0.2,
         select: true,
     },
     labelFontSize: {
         type: Number,
+        default: 14,
         select: true,
     },
     labelPosition: {
         type: String,
+        default: 'inside',
         select: true,
     },
     edgeLabelFontSize: {
         type: Number,
+        default: 12,
         select: true,
     },
     layout: {
         type: String,
+        default: 'force',
         select: true,
     },
     forcePower: {
         type: Number,
+        default: 40,
         select: true,
     },
 }, {

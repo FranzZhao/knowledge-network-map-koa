@@ -1,17 +1,19 @@
 // import data Schema
 const Maps = require('../models/mapsSchema');
+const Graphs = require('../models/graphsSchema');
 
 class MapCtl {
     // get knm lists: the users only see their own maps
     async find(ctx) {
         const maps = await Maps.find({
             author: ctx.state.user._id
-        });
+        }).populate('author');
         ctx.body = maps;
     }
 
     // create a new knm
     async create(ctx) {
+        // 先创建一个knm
         ctx.verifyParams({
             title: { type: 'string', required: true },
             tags: { type: 'array', itemType: 'string', required: true },
@@ -21,6 +23,14 @@ class MapCtl {
         const newMap = await new Maps({
             ...ctx.request.body,
             author: ctx.state.user._id
+        }).save();
+        // 再创建一个graph, graph属于一个knm, 一对一的关系
+        const newGraph = await new Graphs({
+            author: ctx.state.user._id,
+            knm: newMap._id,
+            nodes: [],
+            links: [],
+            relations: [],
         }).save();
         ctx.body = newMap;
     }
