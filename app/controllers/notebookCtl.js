@@ -1,6 +1,7 @@
 const Notebooks = require('../models/notebooksSchema');
 const Nodes = require('../models/nodesSchema');
 const Links = require('../models/linksSchema');
+const Graphs = require('../models/graphsSchema');
 
 class NotebookCtl {
     // 创建知识笔记
@@ -50,6 +51,24 @@ class NotebookCtl {
         }
         // 4. 输出结果
         ctx.body = newNotebook;
+    }
+
+    // 获取知识地图下所有知识节点与关联的所有知识笔记
+    async findAll(ctx){
+        // 1. 获取知识地图下的所有知识节点与关联
+        const graph = await Graphs.findById(ctx.params.graphId);
+        const allNodes = graph.nodes;
+        const allLinks = graph.links;
+        // 2. 依次获取各自拥有的知识地图
+        const nodeNotebooks = await Notebooks.find({
+            relationNode: allNodes
+        });
+        const linkNotebooks = await Notebooks.find({
+            relationLink: allLinks
+        });
+        // 3. 将所有Notebooks合并, 并发送给前端
+        let allNotebooks = [...nodeNotebooks, ...linkNotebooks];
+        ctx.body = allNotebooks;
     }
 
     // 获取知识节点或关联下的所有知识笔记
