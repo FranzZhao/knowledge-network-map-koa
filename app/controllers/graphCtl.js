@@ -4,17 +4,16 @@ const Graphs = require('../models/graphsSchema');
 class GraphCtl {
     // get specific graph info
     async findById(ctx) {
-        const graph = await Graphs.find({
+        const graph = await Graphs.findOne({
             // _id: ctx.params.id,
             knmId: ctx.params.mapId,
-        }).populate('knm');
+        }).populate('nodes links');
         ctx.body = graph;
     }
 
     // update specific graph info
     async update(ctx) {
         ctx.verifyParams({
-            relations: { type: 'string', required: false, },
             themeColor: { type: 'string', required: false, },
             lineStyleType: { type: 'string', required: false, },
             lineStyleColor: { type: 'string', required: false, },
@@ -29,7 +28,8 @@ class GraphCtl {
         });
         const graph = await Graphs.findByIdAndUpdate(
             ctx.params.id,
-            ctx.request.body
+            ctx.request.body,
+            { new: true }
         ).populate('knm');
         ctx.body = graph;
     }

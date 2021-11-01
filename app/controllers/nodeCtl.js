@@ -58,7 +58,7 @@ class NodeCtl {
             state: { type: 'number', required: false },
         });
         const node = await Nodes.findByIdAndUpdate(
-            ctx.params.id, ctx.request.body,
+            ctx.params.id, ctx.request.body, {new: true}
         );
         ctx.body = node;
     }

@@ -31,9 +31,9 @@ class LinkCtl {
             {
                 links: newGraphLinks,
                 relations: newGraphRelations,
-            }
+            },
         );
-        
+
         // 4. 输出新的知识关联
         ctx.body = link;
     }
@@ -66,9 +66,30 @@ class LinkCtl {
             Notebooks: { type: 'array', itemType: 'string', required: false },
             state: { type: 'number', required: false },
         });
+        // 1. 更新link
         const link = await Links.findByIdAndUpdate(
             ctx.params.id, ctx.request.body,
+            { new: true }
         ).populate('source target');
+        // ! 2. 需要同步更新graph下的relations
+        // 2-1. 获取所有的link
+        const currentLinks = await Links.find({
+            graph: ctx.params.graphId
+        });
+        // 2-2. 将所有的link-name放到数组中并去重
+        let relations = [];
+        currentLinks.map(link => {
+            relations.push(link.name);
+        });
+        relations = Array.from(new Set(relations));
+        // 2-3. 更新Graph中的relations
+        // console.log(relations);
+        const newGraph = await Graphs.findByIdAndUpdate(
+            ctx.params.graphId,
+            {relations : relations},
+            {new: true}
+        );
+        // console.log(newGraph);
         ctx.body = link;
     }
 }
