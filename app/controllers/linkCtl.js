@@ -22,11 +22,19 @@ class LinkCtl {
         let newGraphLinks = graph.links;
         newGraphLinks.push(link.id);
         // console.log(newGraphLinks);
+        // 3. 判断该知识关联的名称是否是新的, 如果是则将其名称加到relations中
+        let newGraphRelations = graph.relations;
+        newGraphRelations.push(link.name);
+        newGraphRelations = Array.from(new Set(newGraphRelations)) // 去重
         await Graphs.findByIdAndUpdate(
             ctx.params.graphId,
-            {links: newGraphLinks}
+            {
+                links: newGraphLinks,
+                relations: newGraphRelations,
+            }
         );
-        // 3. 输出新的知识关联
+        
+        // 4. 输出新的知识关联
         ctx.body = link;
     }
 
