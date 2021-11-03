@@ -92,12 +92,12 @@ class NotebookCtl {
         const target = ctx.params.target;
         let newNotebook;
         if (target === 'node') {
-            newNotebook = await Notebooks.find({
+            newNotebook = await Notebooks.findOne({
                 relationNode: ctx.params.targetId,
                 _id: ctx.params.id,
             });
         } else {
-            newNotebook = await Notebooks.find({
+            newNotebook = await Notebooks.findOne({
                 relationLink: ctx.params.targetId,
                 _id: ctx.params.id,
             });
@@ -117,7 +117,7 @@ class NotebookCtl {
             text: { type: 'string', required: false },
         });
         const notebook = await Notebooks.findByIdAndUpdate(
-            ctx.params.id, ctx.request.body
+            ctx.params.id, ctx.request.body, {new: true}
         );
         ctx.body = notebook;
     }
