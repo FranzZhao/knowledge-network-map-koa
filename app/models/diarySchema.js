@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
-const notebooksSchema = new Schema({
+const diarySchema = new Schema({
     __v: {
         type: Number,
         select: false,
@@ -69,4 +69,4 @@ const notebooksSchema = new Schema({
     timestamps: true
 });
 
-module.exports = model('Notebooks', notebooksSchema);
+module.exports = model('Diarys', diarySchema);
