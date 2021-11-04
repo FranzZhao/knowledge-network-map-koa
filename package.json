@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Franz-Zhao/knowledge-network-map-koa#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv-cli": "^4.0.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.4",

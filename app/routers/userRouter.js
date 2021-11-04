@@ -3,7 +3,7 @@ const jwt = require('koa-jwt');
 // UserCtl
 const {
     login, register, jwtVerify, uploadAvatar, getAvatar,
-    staticUserKNM
+    staticUserKNM, checkPassword, update
 } = require('../controllers/userCtl');
 
 // env
@@ -37,5 +37,11 @@ router.get('/avatar', auth, getAvatar);
 
 // 统计用户信息
 router.get('/statics', auth, staticUserKNM);
+
+// 用户修改信息前的密码校验
+router.post('/verify', auth, checkPassword);
+
+// 更新用户信息
+router.patch('/', auth, update);
 
 module.exports = router;
