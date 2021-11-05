@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 const jwt = require('koa-jwt');
 const {
-    create, update, find, findById
+    create, update, find, findById, delete: del
 } = require('../controllers/diaryCtl');
 // env
 const secret = process.env.TOKEN_SECRET;
@@ -28,5 +28,8 @@ router.get('/', auth, find);
 
 // 获取特定的日志
 router.get('/:id', auth, findById);
+
+// delete diary
+router.delete('/:id', auth, del);
 
 module.exports = router;
