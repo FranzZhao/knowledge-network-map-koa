@@ -35,7 +35,7 @@ class UserCtl {
         } else {
             // 密码校验
             const checkPassword = Crypt.decrypt(password, user.password);
-            if (!checkPassword) {
+            if (checkPassword) {
                 ctx.throw(401, '密码错误');
             }
         }
