@@ -2,7 +2,7 @@ const Router = require('koa-router');
 const jwt = require('koa-jwt');
 // UserCtl
 const {
-    find, create, findById, update
+    find, create, findById, update, delete: del
 } = require('../controllers/mapCtl');
 // env
 const secret = process.env.TOKEN_SECRET;
@@ -29,5 +29,8 @@ router.get('/:id', auth, findById);
 
 // 更新指定的knm知识地图(put整体, patch部分)
 router.patch('/:id', auth, update);
+
+// delete knm
+router.delete('/:id', auth, del);
 
 module.exports = router;

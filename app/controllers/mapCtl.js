@@ -1,12 +1,18 @@
 // import data Schema
 const Maps = require('../models/mapsSchema');
 const Graphs = require('../models/graphsSchema');
+const Nodes = require('../models/nodesSchema');
+const Links = require('../models/linksSchema');
+const Notebooks = require('../models/notebooksSchema');
+
+
 
 class MapCtl {
     // get knm lists: the users only see their own maps
     async find(ctx) {
         const maps = await Maps.find({
-            author: ctx.state.user._id
+            author: ctx.state.user._id,
+            state: 1,
         }).populate('author');
         ctx.body = maps;
     }
@@ -62,6 +68,62 @@ class MapCtl {
             ctx.request.body
         );
         ctx.body = map;
+    }
+
+    // delete graph
+    async delete(ctx) {
+        // 1. delete knm map
+        const map = await Maps.findByIdAndUpdate(
+            ctx.params.id,
+            { state: 0 },
+            { new: true }
+        );
+        // 2. 获取knm下面的graph(graph没有state), 并使用graph找到knm下所有的node\link\notebook
+        const graph = await Graphs.findOne({
+            knm: map._id
+        }).populate('nodes links');
+        const nodes = graph.nodes;
+        const links = graph.links;
+        // 2-1. delete nodes & its notebooks
+        for (let i in nodes) {
+            // 2-1-1. set node state = 0
+            const node = await Nodes.findByIdAndUpdate(
+                nodes[i]._id,
+                { state: 0 },
+                { new: true }
+            );
+            const nodeNotes = node.Notebooks;
+            // 2-1-2. set notebooks state = 0
+            for (let j in nodeNotes) {
+                await Notebooks.findByIdAndUpdate(
+                    nodeNotes[j],
+                    { state: 0 }
+                )
+            }
+        }
+        // 2-2. delete nodes & its notebooks
+        for (let i in links) {
+            // 2-2-1. set node state = 0
+            const link = await Links.findByIdAndUpdate(
+                links[i]._id,
+                { state: 0 },
+                { new: true }
+            );
+            const linkNotes = link.Notebooks;
+            // 2-2-2. set notebooks state = 0
+            for (let j in linkNotes) {
+                await Notebooks.findByIdAndUpdate(
+                    linkNotes[j],
+                    { state: 0 }
+                )
+            }
+        }
+        // 3. return new knm
+        const newMaps = await Maps.find({
+            author: ctx.state.user._id,
+            state: 1,
+        }).populate('author');
+        ctx.body = newMaps;
     }
 }
 
