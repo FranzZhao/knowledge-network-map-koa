@@ -46,7 +46,7 @@ const graphsSchema = new Schema({
     },
     themeColor: {
         type: String,
-        default: '#1b3436',
+        default: '#1b2c36',
         select: true,
     },
     lineStyleType: {
