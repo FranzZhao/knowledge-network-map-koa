@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 const jwt = require('koa-jwt');
 const {
-    create, find, findById, update, findAll
+    create, find, findById, update, findAll, delete: del
 } = require('../controllers/notebookCtl');
 const secret = process.env.TOKEN_SECRET;
 
@@ -30,5 +30,8 @@ router.get('/:target/:targetId/notebook/:id', auth, findById);
 
 // 更新node/link下特定id的知识笔记
 router.patch('/:target/:targetId/notebook/:id', auth, update);
+
+// 删除node/link下特定id的知识笔记
+router.delete('/:target/:targetId/notebook/:id', auth, del);
 
 module.exports = router;
