@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 const jwt = require('koa-jwt');
 const {
-    create, find, findById, update
+    create, find, findById, update, delete: del
 } = require('../controllers/nodeCtl');
 const secret = process.env.TOKEN_SECRET;
 
@@ -27,5 +27,8 @@ router.get('/:id', auth, findById);
 
 // 更新graph下特定id的node
 router.patch('/:id', auth, update);
+
+// 删除特定node
+router.delete('/:id', auth, del);
 
 module.exports = router;

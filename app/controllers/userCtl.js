@@ -117,17 +117,20 @@ class UserCtl {
     async staticUserKNM(ctx) {
         // 1. knm数量
         const knm = await Maps.find({
-            author: ctx.state.user._id
+            author: ctx.state.user._id,
+            state: 1,
         });
         const knmNumbers = Object.keys(knm).length;
         // 2. nodes数量
         const nodes = await Nodes.find({
-            author: ctx.state.user._id
+            author: ctx.state.user._id,
+            state: 1,
         });
         const nodeNumbers = Object.keys(nodes).length;
         // 3. notebooks数量
         const notebooks = await Notebooks.find({
-            author: ctx.state.user._id
+            author: ctx.state.user._id,
+            state: 1,
         });
         const notebookNumbers = Object.keys(notebooks).length;
 
@@ -143,10 +146,12 @@ class UserCtl {
             const allLinks = graph.links;
             // 4.2 获取每个知识节点与知识关联下的知识笔记
             const nodeNotebooks = await Notebooks.find({
-                relationNode: allNodes
+                relationNode: allNodes,
+                state: 1,
             });
             const linkNotebooks = await Notebooks.find({
-                relationLink: allLinks
+                relationLink: allLinks,
+                state: 1,
             });
             // 4.3 统计知识笔记的数量
             const currentKnmStatic = {
@@ -192,7 +197,7 @@ class UserCtl {
     }
 
     // 更新用户信息
-    async update(ctx){
+    async update(ctx) {
         // 1. params verify
         ctx.verifyParams({
             username: { type: 'string', required: false },
@@ -200,12 +205,12 @@ class UserCtl {
             password: { type: 'string', required: false }
         });
         // 2. if it has password, then encrypt
-        if (ctx.request.body.password){
+        if (ctx.request.body.password) {
             ctx.request.body.password = Crypt.encrypt(ctx.request.body.password);
         }
         // 3. update to MongoDB
         const newUserInfo = await Users.findByIdAndUpdate(
-            ctx.state.user._id, ctx.request.body, {new: true}
+            ctx.state.user._id, ctx.request.body, { new: true }
         );
         ctx.body = newUserInfo;
     }
